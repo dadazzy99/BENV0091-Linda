@@ -1,6 +1,7 @@
 ---
 title: "Lecture 4"
 output: html_document
+#Linda 
 ---
 
 ```{r setup, include=FALSE}
