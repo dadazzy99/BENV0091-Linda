@@ -1,0 +1,162 @@
+#First optimization (waypoint 0)
+
+m=gekko()
+
+d1=m.Var(73.85, lb=1, ub=295.4)
+d2=m.Var(73.85, lb=1, ub=295.4)
+d3=m.Var(73.85, lb=1, ub=295.4)
+d4=m.Var(73.85, lb=1, ub=295.4)
+s1=m.Var(lb=10, ub=22)
+s2=m.Var(lb=10, ub=22)
+s3=m.Var(lb=10, ub=22)
+s4=m.Var(lb=10, ub=22)
+t1=m.Var(lb=1, ub=19.17)
+t2=m.Var(lb=1, ub=19.17)
+t3=m.Var(lb=1, ub=19.17)
+t4=m.Var(lb=1, ub=19.17)
+
+obj=m.Obj((((5.4031*s1**3-10.619*s1**2+241.32*s1-353)*t1*0.1873)+0.05*((5.4031*s1**3-10.619*s1**2+241.32*s1-353)*t1*0.1873)**2)+
+           (((5.4031*s2**3-10.619*s2**2+241.32*s2-353)*t2*0.1873)+0.05*((5.4031*s2**3-10.619*s2**2+241.32*s2-353)*t2*0.1873)**2)+
+           (((5.4031*s3**3-10.619*s3**2+241.32*s3-353)*t3*0.1873)+0.05*((5.4031*s3**3-10.619*s3**2+241.32*s3-353)*t3*0.1873)**2)+
+           (((5.4031*s4**3-10.619*s4**2+241.32*s4-353)*t4*0.1873)+0.05*((5.4031*s4**3-10.619*s4**2+241.32*s4-353)*t4*0.1873)**2)
+)
+
+#sum of distance of each segment equals total distance of route 
+m.Equation(d1+d2+d3+d4==295.4)
+#t1 - t4 are the time taken to travel each segment under JiT. 
+m.Equation(t1+t2+t3+t4==22.34)
+#same equation as above, where t1 = p * t01,
+#t01 = d1/average speed
+#m=3.169
+m.Equation(1.04*d1/(295.4/19.17)+1.062*d2/(295.4/19.17)+1.215*d3/(295.4/19.17)+1.241*d4/(295.4/19.17)==22.34)
+m.Equation(d1==s1*t1)
+m.Equation(d2==s2*t2)
+m.Equation(d3==s3*t3)
+m.Equation(d4==s4*t4)
+
+m.options.MAX_ITER=1000
+m.options.IMODE = 3
+m.solve()
+
+print('d1' + str(d1.value))
+print('d2' + str(d2.value))
+print('d3' + str(d3.value))
+print('d4' + str(d4.value))
+print('t1' + str(t1.value))
+print('t2' + str(t2.value))
+print('t3' + str(t3.value))
+print('t4' + str(t4.value))
+print('s1' + str(s1.value))
+print('s2' + str(s2.value))
+print('s3' + str(s3.value))
+print('s4' + str(s4.value))
+
+#Second optimization (waypoint 1)
+
+m=gekko()
+
+d1=m.Var(73.85, lb=1, ub=295.4)
+d2=m.Var(73.85, lb=1, ub=295.4)
+d3=m.Var(73.85, lb=1, ub=295.4)
+d4=m.Var(73.85, lb=1, ub=295.4)
+s1=m.Var(lb=10, ub=22)
+s2=m.Var(lb=10, ub=22)
+s3=m.Var(lb=10, ub=22)
+s4=m.Var(lb=10, ub=22)
+t1=m.Var(lb=1, ub=19.17)
+t2=m.Var(lb=1, ub=19.17)
+t3=m.Var(lb=1, ub=19.17)
+t4=m.Var(lb=1, ub=19.17)
+
+obj=m.Obj((((5.4031*s1**3-10.619*s1**2+241.32*s1-353)*t1*0.1873)+0.05*((5.4031*s1**3-10.619*s1**2+241.32*s1-353)*t1*0.1873)**2)+
+           (((5.4031*s2**3-10.619*s2**2+241.32*s2-353)*t2*0.1873)+0.05*((5.4031*s2**3-10.619*s2**2+241.32*s2-353)*t2*0.1873)**2)+
+           (((5.4031*s3**3-10.619*s3**2+241.32*s3-353)*t3*0.1873)+0.05*((5.4031*s3**3-10.619*s3**2+241.32*s3-353)*t3*0.1873)**2)+
+           (((5.4031*s4**3-10.619*s4**2+241.32*s4-353)*t4*0.1873)+0.05*((5.4031*s4**3-10.619*s4**2+241.32*s4-353)*t4*0.1873)**2)
+)
+
+#sum of distance of each segment equals total distance of route 
+m.Equation(d1+d2+d3+d4==295.4)
+#t1 - t4 are the time taken to travel each segment under JiT. 
+m.Equation(t1+t2+t3+t4==21)
+#same equation as above, where t1 = p * t01,
+#t01 = d1/average speed
+#m=3.169
+m.Equation(1.04*d1/(295.4/19.17)+1.062*d2/(295.4/19.17)+1.215*d3/(295.4/19.17)+1.241*d4/(295.4/19.17)==21)
+m.Equation(d1==s1*t1)
+m.Equation(d2==s2*t2)
+m.Equation(d3==s3*t3)
+m.Equation(d4==s4*t4)
+m.Equation(d1==50.57)
+m.Equation(s1==14.46)
+
+m.options.MAX_ITER=1000
+m.options.IMODE = 3
+m.solve()
+
+print('d1' + str(d1.value))
+print('d2' + str(d2.value))
+print('d3' + str(d3.value))
+print('d4' + str(d4.value))
+print('t1' + str(t1.value))
+print('t2' + str(t2.value))
+print('t3' + str(t3.value))
+print('t4' + str(t4.value))
+print('s1' + str(s1.value))
+print('s2' + str(s2.value))
+print('s3' + str(s3.value))
+print('s4' + str(s4.value))
+
+#Third optimization (waypoint 2)
+
+m=gekko()
+
+d1=m.Var(73.85, lb=1, ub=295.4)
+d2=m.Var(73.85, lb=1, ub=295.4)
+d3=m.Var(73.85, lb=1, ub=295.4)
+d4=m.Var(73.85, lb=1, ub=295.4)
+s1=m.Var(lb=10, ub=22)
+s2=m.Var(lb=10, ub=22)
+s3=m.Var(lb=10, ub=22)
+s4=m.Var(lb=10, ub=22)
+t1=m.Var(lb=1, ub=19.17)
+t2=m.Var(lb=1, ub=19.17)
+t3=m.Var(lb=1, ub=19.17)
+t4=m.Var(lb=1, ub=19.17)
+
+obj=m.Obj((((5.4031*s1**3-10.619*s1**2+241.32*s1-353)*t1*0.1873)+0.05*((5.4031*s1**3-10.619*s1**2+241.32*s1-353)*t1*0.1873)**2)+
+           (((5.4031*s2**3-10.619*s2**2+241.32*s2-353)*t2*0.1873)+0.05*((5.4031*s2**3-10.619*s2**2+241.32*s2-353)*t2*0.1873)**2)+
+           (((5.4031*s3**3-10.619*s3**2+241.32*s3-353)*t3*0.1873)+0.05*((5.4031*s3**3-10.619*s3**2+241.32*s3-353)*t3*0.1873)**2)+
+           (((5.4031*s4**3-10.619*s4**2+241.32*s4-353)*t4*0.1873)+0.05*((5.4031*s4**3-10.619*s4**2+241.32*s4-353)*t4*0.1873)**2)
+)
+
+m.Equation(d1+d2+d3+d4==295.4)
+#t1 - t4 are the time taken to travel each segment under JiT. 
+m.Equation(t1+t2+t3+t4==21)
+#same equation as above, where t1 = p * t01,
+#t01 = d1/average speed
+m.Equation(1.04*d1/(295.4/19.17)+1.062*d2/(295.4/19.17)+1.215*d3/(295.4/19.17)+1.241*d4/(295.4/19.17)==21)
+m.Equation(d1==s1*t1)
+m.Equation(d2==s2*t2)
+m.Equation(d3==s3*t3)
+m.Equation(d4==s4*t4)
+m.Equation(d1==50.57)
+m.Equation(s1==14.46)
+m.Equation(d2==177.72)
+m.Equation(s2==12.88)
+
+m.options.MAX_ITER=1000
+m.options.IMODE = 3
+m.solve()
+
+print('d1' + str(d1.value))
+print('d2' + str(d2.value))
+print('d3' + str(d3.value))
+print('d4' + str(d4.value))
+print('t1' + str(t1.value))
+print('t2' + str(t2.value))
+print('t3' + str(t3.value))
+print('t4' + str(t4.value))
+print('s1' + str(s1.value))
+print('s2' + str(s2.value))
+print('s3' + str(s3.value))
+print('s4' + str(s4.value))
